@@ -141,6 +141,7 @@ celerybeat.pid
 env/
 venv/
 ENV/
+brandscope/
 env.bak/
 venv.bak/
 
