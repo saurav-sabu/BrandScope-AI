@@ -1,1 +1,2 @@
 # BrandScope-AI
+

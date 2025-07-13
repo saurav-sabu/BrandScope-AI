@@ -1,7 +1,11 @@
-python-dotenv
 crewai
 crewai-tools
+streamlit
+unstructured
+tools
+requests
 fastapi
 uvicorn
-gunicorn
 pydantic
+python-dotenv
+yfinance

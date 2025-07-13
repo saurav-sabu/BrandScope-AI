@@ -1,8 +1,6 @@
 from crewai import Task
 
 
-
-
 class BrandTask():
 
     def __validate_inputs(self, brand_name, competitors):
@@ -17,7 +15,7 @@ class BrandTask():
             You are the Search Agent assigned to collect up-to-date online data about the brand **{brand_name}** and its competitors: {', '.join([c['name'] for c in competitors])}.
 
             Use search engines and APIs to:
-            - Fetch 5–10 latest high-quality news or blog entries per brand.
+            - Fetch 1 latest high-quality news or blog entries per brand.
             - Prioritize reputable, timely, and relevant sources.
             - Summarize each source clearly for use by downstream agents.
             """,
@@ -37,33 +35,6 @@ class BrandTask():
                         agent=agent
                     )
     
-
-    def search_task(self, agent, brand_name, competitors):
-        self.__validate_inputs(brand_name, competitors)
-        return Task(
-            description=f"""
-You are the Search Agent assigned to collect up-to-date online data about the brand **{brand_name}** and its competitors: {', '.join([c['name'] for c in competitors])}.
-
-Use search engines and APIs to:
-- Fetch 5-10 latest high-quality news or blog entries per brand.
-- Prioritize reputable, timely, and relevant sources.
-- Summarize each source clearly for use by downstream agents.
-""",
-            expected_output="""
-[
-  {
-    "brand": "Nike",
-    "title": "Nike launches eco-friendly shoes",
-    "url": "https://...",
-    "source": "CNN",
-    "publishedAt": "2025-07-03",
-    "summary": "Nike introduced a new line of sustainable footwear..."
-  },
-  ...
-]
-""",
-            agent=agent
-        )
 
     def sentiment_task(self, agent):
         return Task(
@@ -162,6 +133,11 @@ Highlight subtle emotional cues and ignore sarcastic/misleading signals.
         Format should be business-friendly and visually clear.
         """,
                     expected_output=f"""
+
+        Return the final output in **valid GitHub-flavored Markdown**, clearly divided into the following 5 sections. Use headings (##), bullet points, and a Markdown table where needed.
+
+        Example format:
+        
         # 📊 Brand Monitoring Report: {brand_name}
 
         ## 1. Public Sentiment Overview
@@ -181,7 +157,10 @@ Highlight subtle emotional cues and ignore sarcastic/misleading signals.
 
         ## 5. Recommendations
         - Actionable next steps for brand team
-        """,
+
+        Generate in proper markdown format
+        """
+        ,
                     agent=agent
                 )
 

@@ -1,5 +1,8 @@
 from crewai import Agent, LLM
 from dotenv import load_dotenv
+from tools.search_tools import SearchTools
+from tools.browser_tools import BrowserTools
+from tools.finance_tools import YFinanceTools
 
 load_dotenv()
 
@@ -7,6 +10,9 @@ class BrandAgent():
 
     def __init__(self):
         self.llm = LLM(model="gemini/gemini-2.0-flash")
+        self.search_tool = SearchTools()
+        self.browser_tool = BrowserTools()
+        self.finance_tool = YFinanceTools()
 
 
     def search_agent_brand(self):
@@ -27,6 +33,7 @@ class BrandAgent():
             
             "**Your mindset:** precise, unbiased, and detail-oriented — a vigilant watchdog in the digital noise."),
             llm = self.llm,
+            tools = [self.search_tool,self.browser_tool],
             allow_delegation = False
         )
     
@@ -71,6 +78,7 @@ class BrandAgent():
                 "**Your mindset:** data-driven, risk-aware, and strategically focused — extracting clarity from financial complexity."
             ),
             llm=self.llm,
+            tools = [self.finance_tool],
             allow_delegation=False
         )
 
@@ -91,7 +99,7 @@ class BrandAgent():
                 
                 "**Your mindset:** strategic, insight-driven, and always comparative — focused on helping decision-makers see how their brand truly stacks up in the market."
             ),
-            tools=[],
+            tools=[self.finance_tool,self.search_tool,self.browser_tool],
             llm=self.llm,
             allow_delegation=True,
             verbose=True
@@ -106,14 +114,13 @@ class BrandAgent():
                 "With a background in corporate communications and business intelligence reporting, you've supported leadership teams, marketing heads, and PR managers by turning data into decision-ready insights.\n\n"
                 
                 "Your primary responsibility is to synthesize inputs from multiple expert agents — including brand sentiment, financial trends, search visibility, and competitor benchmarks — "
-                "and assemble them into a single coherent narrative. You don’t just report facts; you extract meaning, highlight risks and opportunities, and communicate what truly matters to stakeholders.\n\n"
+                "and assemble them into a single coherent narrative. You don't just report facts; you extract meaning, highlight risks and opportunities, and communicate what truly matters to stakeholders.\n\n"
                 
                 "You are well-versed in corporate tone, understand what executives care about (reputation, risks, trends, ROI), and know how to layer your outputs for both clarity and impact. "
                 "Your reports serve as the final deliverable in the brand monitoring pipeline — informing C-suite decisions, PR strategy, and investment outlook.\n\n"
                 
                 "**Your mindset:** structured, insightful, and outcome-focused — a storyteller who lets data drive strategy."
             ),
-            tools=[],
             llm=self.llm,
             allow_delegation=False,
             verbose=True
